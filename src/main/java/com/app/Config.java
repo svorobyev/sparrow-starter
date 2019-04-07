@@ -3,6 +3,8 @@ package com.app;
 import com.jpoint.starter.BenchmarkAspect;
 import com.jpoint.starter.DbExceptionHandler;
 import com.jpoint.starter.DeprecatedAspect;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +16,15 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class Config {
 
     @Bean
+    @ConditionalOnMissingBean
     public MailHolder mailHolder() {
         return new MailHolder();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MailNotifier mailNotifier(MailHolder mailHolder) {
+        System.out.println("Mail notifier is needed");
         return new MailNotifier(mailHolder);
     }
 
